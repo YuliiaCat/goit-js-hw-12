@@ -62,9 +62,12 @@ form.addEventListener('submit', async (event) => {
         message: 'Sorry, there are no images matching your search query. Please try again!',
       })
       hideLoader();
+      hideLoadBtn();
     }
   } catch (err) {
     console.log(err);
+    hideLoadBtn();
+    hideLoader();
     iziToast.error({
       position: "topRight",
       message: 'Sorry, the request can\'t be completed at this time. Please try again',
@@ -72,7 +75,6 @@ form.addEventListener('submit', async (event) => {
   }
 
   input.value = '';
-  showLoadBtn();
   updateBtnStatus();
 });
 
