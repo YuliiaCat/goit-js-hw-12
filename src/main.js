@@ -17,6 +17,13 @@ let currentQuery = '';
 let maxPage;
 const perPage = 15;
 
+let lightbox = new SimpleLightbox('.gallery a', {
+  captions: true,
+  captionDelay: 250,
+  captionPosition: 'bottom',
+  captionsData: 'alt',
+});
+
 // render gallery
 
 form.addEventListener('submit', async (event) => {
@@ -47,13 +54,6 @@ form.addEventListener('submit', async (event) => {
 
       hideLoader();
       hideLoadBtn();
-
-      let lightbox = new SimpleLightbox('.gallery a', {
-        captions: true,
-        captionDelay: 250,
-        captionPosition: 'bottom',
-        captionsData: 'alt',
-      });
 
       lightbox.refresh();
     } else {
@@ -89,9 +89,14 @@ loadMoreBtn.addEventListener('click', async () => {
     const data = await getImages(currentQuery, currentPage);
     const markup = renderImage(data.hits);
     list.insertAdjacentHTML("beforeend", markup);
+    lightbox.refresh();
     scrollPage();
   } catch (err) {
     console.log(err);
+    iziToast.error({
+      position: "bottomRight",
+      message: 'Sorry, the request can\'t be completed at this time. Please try again',
+    })
   }
 
   hideLoader();
